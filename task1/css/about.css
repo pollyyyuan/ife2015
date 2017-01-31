@@ -1,0 +1,91 @@
+.content{
+	background-color: #EEEEEE;
+	padding-top: 100px;
+	padding-bottom: 323px;
+}
+.content .layout{
+	background-color: #FFF;
+	height: 1200px;	
+}
+.box{
+	position: absolute;
+	top:0;
+	left:50%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	width: 6px;
+	height: 100%;
+	background-color: #EEEEEE;
+}
+.box div{
+	position: relative;
+}
+.box .center{
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border:5px solid #EEEEEE;
+	border-radius: 50%;
+	left:-52px;
+	overflow: hidden;
+}
+.box .left{
+	position: absolute;
+	top:122px;
+	left:-385px;
+	width: 308px;
+	text-align: right;
+	font-size:20px;
+	font-family: 'microsoft yahei';
+}
+.box .right{
+	top:8px;
+	right: -35px;
+	width: 308px;
+	font:14px/180% '宋体';
+}
+.box .right li{
+	position: relative;
+	margin-bottom: 37px;
+}
+.box .right .year{
+	position: absolute;
+	width: 60px;
+	height: 23px;
+	background-color: #fff;
+	border:5px solid #EEEEEE;
+	border-radius: 10px;
+	left:-84px;
+	text-align: center;
+	font:14px/23px "宋体";
+	color: #666666;
+}
+.box .center img{
+	width: 100%;
+}
+.box .icon{
+	height: 269px;
+}
+.icon .center{
+	top:-70px;
+	left:-87px;
+	width: 160px;
+	height: 160px;
+	border-width: 10px;
+}
+.icon .left{
+	top:126px;
+}
+.icon .right{
+	top:-55px;
+}
+.phone{
+	height: 218px;
+}
+.education{
+	height: 342px;
+}
+.education .right,.work .right{
+	top:28px;
+	left:52px;
+}

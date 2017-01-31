@@ -1,8 +1,9 @@
 /*初始化*/
-html,body,div,ul,li,h1,p,dl,dt,dd,input,span{
+html,body,div,ul,li,h1,p,dl,dt,dd,input,span,img{
 	padding:0;
 	margin:0;
 }
+img {border:0;	vertical-align:middle; }  /*  去掉图片低测默认的3像素空白缝隙*/
 li{
 	list-style: none;
 }
@@ -12,6 +13,7 @@ h1,h2,h3,h4,h5,h6{
 }
 i,s{
 	text-decoration: none;
+	font-style: normal;
 }
 a{
 	text-decoration: none;
