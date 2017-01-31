@@ -24,7 +24,12 @@
 	position: relative;
 }
 .search-box i.search-icon{
-
+	position: absolute;
+	top: 6px;
+	left: 8px;
+	width: 28px;
+	height: 29px;
+	background:url(../img/search.png);
 }
 .search-box input{
 	float:left; 
@@ -41,33 +46,105 @@
 	border:0;
 	color: #fff;
 	font:22px/40px 'microsoft yahei';
+	cursor: pointer;
 }
 .sidebar .classic{
 	border-top:1px solid #DDDDDD;
 	border-bottom:1px solid #DDDDDD;
 }
-.sidebar li{
+.classic li{
 	height: 49px;
 	border-bottom: 1px solid #DDDDDD;
 	color: #666666;
 	font:14px/50px "宋体";
 	padding-left: 22px;
+	position: relative;
 }
-.sidebar li:last-child{
+.classic li:last-child{
 	border:0;
 }
+.classic li::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 4px;
+	height: 100%;
+	background-color: #DFC6E6;
+}
+.classic .active::before{
+	background-color: #522A5C;
+}
 .sidebar .calendar{
-	height: 240px;
+	height: 190px;
+	padding:20px 20px 26px;
+}
+.calendar .tit{
+	font:700 12px/20px 'microsoft yahei';
+	position: relative;
+	text-align: center;
+	margin-bottom: 4px;
+}
+.calendar .tit a{
+	color: #773A86;
+}
+.calendar .tit .btn-left,.calendar .tit .btn-right{
+	position: absolute;
+}
+.calendar .tit .btn-left{
+	left: 12px;
+}
+.calendar .tit .btn-right{
+	right: 12px;
+}
+.calendar .con li{
+	height: 28px;
+	border-bottom: 1px solid #EEEEEE;
+	color: #999999;
+	padding-top: 7px;
+	padding-bottom: 6px;
+}
+.calendar .con span{
+	display: inline-block;
+	width: 26px;
+	height: 20px;
+	text-align: center;
+	font:12px/20px 'microsoft yahei';
+	/*margin:0 5px;*/
+}
+.calendar .con .active{
+	background-color: #773C88;
+	color: #fff;
 }
 .sidebar .tags{
 	height: 197px;
+	padding:12px 20px 33px 15px;
+	font-family: 'microsoft yahei';
 }
+.tags .tit{
+	color: #666666;
+	font-size:14px;
+	margin-bottom: 22px;
+}
+.tags .con{
+	color: #773B87;
+}
+.tags .con .js{
+	font-size: 32px;
+	font-weight: 700;
+}
+.tags .con .css{
+	margin-left: 12px;
+	font-size: 20px;
+	font-weight: 700;
+}
+
 .main{
 	width: 710px;
 }
 .main .section{
-	height: 370px;
+	/*height: 350px;*/
 	margin-top: 10px;
+	padding:20px 20px 16px 17px;
 	background-color: #fff;
 	position: relative;
 }
@@ -76,8 +153,7 @@
 }
 .section .tag{
 	position: absolute;
-	left:-50px;
-	top:20px;
+	left:-50px; 	
 	width: 50px;
 	height: 80px;
 }
@@ -92,5 +168,57 @@
 	background-color: #522A5C;
 }
 .tag .tit{
+	background-color: #A660B7;
+}
+.section h1{
+	color: #A55FB7;
+	font:700 16px/20px 'microsoft yahei';
+	margin-bottom: 5px;
+}
+.section h2{
+	color: #666666;
+	font:700 12px/20px 'microsoft yahei';
+	margin-bottom: 7px;
+}
+.section p{
+	line-height: 180%;
+	text-indent: 2em;
+}
+.section .foot{
+	display: block;
+	margin-top: 30px;
+	margin-bottom: 16px;
+	text-align: right;
+	padding-right: 5px;
+	font-family: 'microsoft yahei';
+	color: #999999;
+}
+.main .page{
+	margin-top: 10px;
+	height: 35px;
+	padding-left: 66px;
+}
+.page span{
+	display: inline-block;
+	background-color: #fff;
+	margin-right:6px;
+	text-align: center;
+	font:12px/35px 'microsoft yahei';
+	height: 35px;
+}
+.page>div{
+	float: left;
+}
+.page .pages span{
+	width: 40px;
+}
+.page .left span,.page .right span{
+	width: 70px;
+}
+.page .unable{
+	color: #CCCCCC;
+}
+.page .active{
+	color: #fff;
 	background-color: #A660B7;
 }
