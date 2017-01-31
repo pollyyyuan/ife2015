@@ -1,0 +1,96 @@
+.content{
+	background-color: #EEEEEE;
+	padding-top: 20px;
+	padding-bottom: 323px;
+}
+.sidebar{
+	float: right;
+	width: 260px;
+}
+.sidebar>div{
+	background-color: #fff;
+	margin-top: 10px;
+}
+.sidebar .keywords{
+	height: 61px;
+	margin-top: 0;
+	padding-top:19px;
+}
+.keywords .search-box{
+	width: 220px;
+	height: 40px;
+	margin-left: 19px;
+	border:1px solid #DDDDDD;
+	position: relative;
+}
+.search-box i.search-icon{
+
+}
+.search-box input{
+	float:left; 
+	padding-left: 49px;
+	width: 120px;
+	height: 40px;
+	border:0;
+}
+.search-box button{
+	float: left;
+	width: 51px;
+	height: 40px;
+	background-color: #dddddd;
+	border:0;
+	color: #fff;
+	font:22px/40px 'microsoft yahei';
+}
+.sidebar .classic{
+	border-top:1px solid #DDDDDD;
+	border-bottom:1px solid #DDDDDD;
+}
+.sidebar li{
+	height: 49px;
+	border-bottom: 1px solid #DDDDDD;
+	color: #666666;
+	font:14px/50px "宋体";
+	padding-left: 22px;
+}
+.sidebar li:last-child{
+	border:0;
+}
+.sidebar .calendar{
+	height: 240px;
+}
+.sidebar .tags{
+	height: 197px;
+}
+.main{
+	width: 710px;
+}
+.main .section{
+	height: 370px;
+	margin-top: 10px;
+	background-color: #fff;
+	position: relative;
+}
+.main .section:first-child{
+	margin-top: 0;
+}
+.section .tag{
+	position: absolute;
+	left:-50px;
+	top:20px;
+	width: 50px;
+	height: 80px;
+}
+.tag span{
+	display: block;
+	height: 40px;
+	color: #fff;
+	font:14px/40px 'microsoft yahei';
+	text-align: center;
+}
+.tag .num{
+	background-color: #522A5C;
+}
+.tag .tit{
+	background-color: #A660B7;
+}

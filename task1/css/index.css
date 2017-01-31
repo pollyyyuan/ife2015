@@ -1,0 +1,96 @@
+/*图片盒子*/
+.img-box{
+	height: 526px;
+	max-width: 1200px;
+	background:#fff url(../img/banner-bg.jpg) no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	overflow: hidden;
+	background-position: center;
+	margin:0 auto;
+}
+.img-box .layout{
+	height: 100%;
+}
+.img-box .img-content{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 340px;
+	height: 80px;
+	background-image:linear-gradient(to bottom,rgba(255,255,255,.1) 25%,rgba(255,255,255,.2));
+	box-shadow: 0 0 10px rgba(0,0,0,.1); 
+	padding:10px;
+	padding-bottom:30px;
+	color: #fff;
+}
+.img-content h1{
+	float: right;
+	font:14px/14px "宋体";
+	margin-bottom: 12px;
+}
+.img-content p{
+	float: right;
+	font:12px/150% "宋体";
+}
+/*文字盒子*/
+.text-box{
+	background-color: #EEEEEE;
+	padding-top: 10px;
+	padding-bottom: 110px;
+}
+.text-box .layout{
+	height: 360px;
+}
+.text-box li{
+	float: left;
+	margin-left: 10px;
+	width: 300px;
+	padding:10px;
+	padding-bottom: 20px;
+	height: 340px;
+	background-color: #fff;
+	text-align: center;
+}
+.text-box li:nth-child(1){
+	margin-left: 0;
+}
+.text-box img{
+	height: 180px;
+	overflow: hidden;
+	margin-bottom: 15px;
+}
+.text-box p{
+	padding:0 20px;
+	font-size:12px;
+	line-height: 170%;
+}
+/*介绍*/
+.introduce{
+	background-color: #fff;
+	font-family: 'microsoft yahei';
+	text-align: center;
+	height: 520px;
+}
+.introduce .per-icon{
+	width: 160px;
+	height: 160px;
+	border-radius: 50%;
+	position: absolute;
+	top:-50px;
+	left:50%;
+	margin-left: -80px;
+	overflow: hidden;
+}
+.per-icon img{
+	width: 100%;
+}
+.introduce h1{
+	padding-top: 155px;
+	font-size: 20px;
+}
+.introduce p{
+	width: 600px;
+	font-size: 14px;
+	margin:40px auto;
+}
