@@ -34,3 +34,9 @@ button{
 select{
 	display: block;
 }
+.info{
+	display: inline-block;
+	height: 22px;
+	color: pink;
+	margin-left: 10px;
+}
