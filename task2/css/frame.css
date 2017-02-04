@@ -5,6 +5,9 @@ html,body,div,ul,li,input,button,select{
 input,button{
 	vertical-align: middle;
 }
+li{
+	list-style: none;
+}
 body{
 	width: 980px;
 	margin:0 auto;
@@ -40,3 +43,28 @@ select{
 	color: pink;
 	margin-left: 10px;
 }
+.input-box{
+	position: relative;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	height: 20px;
+	width: 300px;
+}
+.input-box input{
+	border:0;
+}
+.about{
+	position: absolute;
+	width: 280px;
+	top: 20px;
+	left: -1px;
+	border: 1px solid #ccc;
+	display: none;
+}
+.about .active{
+	background-color: pink;
+	color: #fff;
+}
+/*.about li:hover{
+	background-color: #ccc;
+}*/
