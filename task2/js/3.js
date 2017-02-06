@@ -26,12 +26,17 @@
 		for(li in lis)
 		{	
 			lis[li].onclick=function(){
-				about.querySelector('[class="active"]').setAttribute('class','');	
+				if(about.querySelector('[class="active"]')){	
+					about.querySelector('[class="active"]').setAttribute('class','');	
+				}
 				this.setAttribute('class','active');
 				input.value=this.innerHTML;
 			}
 		}
 		if(index>-1){
+			if(about.querySelector('[class="active"]')){	
+				about.querySelector('[class="active"]').setAttribute('class','');	
+			}			
 			lis[index].setAttribute('class','active');
 			input.value=lis[index].innerHTML;
 		}
@@ -53,21 +58,26 @@
 		}
 	}
 	input.onkeyup=function(e){
+		var key=e.keyCode;
 		var inputValue=input.value;
-		if(inputValue){
-			about.style.display='block';
-			lastIndex=0;
-			for (num in data){
-				if(num==inputValue)
-				{
-					dom(data[num]);
-					break;
-				}
-			}
+		if(key==37||key==38||key==39||key==40){
 			keyAbout(e);
 		}
-		else{
-			about.style.display='none';
+		else{		
+			if(inputValue){
+				lastIndex=0;
+				about.style.display='block';
+				for (num in data){
+					if(num==inputValue)
+					{
+						dom(data[num]);
+						break;
+					}
+				}
+			}
+			else{
+				about.style.display='none';
+			}
 		}
 		
 
@@ -81,8 +91,9 @@
         	lastIndex--;
         	activeDom(lastIndex-1);
    		} 
-   		else if ((key==39||key==40)&&lastIndex<lis.length-1) {
+   		else if ((key==39||key==40)&&lastIndex<lis.length) {
         	lastIndex++;
+        	console.log('lastIndex='+lastIndex);
         	activeDom(lastIndex-1);
     	}   		 
 	}
