@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务管理系统</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="header">
+		<i class="logo"><img src="img/logo-icon.jpg" alt="logoImg"></i>
+	</div>
+	<div class="content border-top">
+		<div class="classic border-right">
+			<div class="add-btn border-top"><a href="#" id="addBtn"><i class="icon-add"></i>新建分类</a></div>
+			<h1 class="h-allTask">
+				所有任务(<i id="num-allTask"></i>)
+			</h1>
+			<h2 class="h">
+				分类列表
+			</h2>
+			<ul class="lists">
+				<li>
+					<h3 class="h-classic">	
+						<a href="#"><i class="icon-folder"></i>默认分类(<i class="id-list">0</i>)</a>
+						<a href="#" class="del-btn"><i class="icon-del"></i></a>
+					</h3>
+					<!-- <ul class="list">
+						<li class="active">
+							<a href="#"><i class="icon-file"></i>task1(<i></i>)</a>
+							<a href="#" class="del-btn"><i class="icon-del"></i></a>
+						</li>
+						<li>
+							<a href="#"><i class="icon-file"></i>task1(<i></i>)</a>
+							<a href="#" class="del-btn"><i class="icon-del"></i></a>
+						</li>
+					</ul> -->
+				</li>
+			</ul>
+		</div>
+		<div class="task border-right">
+			<div class="add-btn border-top"><a href="#"><i class="icon-add"></i>新建任务</a></div>
+			<div class="tabs">
+				<span class="tab active">所有</span>
+				<span class="tab">未完成</span>
+				<span class="tab">已完成</span>
+			</div>
+			<div class="lists border-top">
+				<dl>
+					<dt>2016-01-07</dt>
+					<dd class="active"><a href="#">to do1</a></dd>
+					<dd class="ed"><a href="#">to do2</a></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="main">
+			<div class="m-header">
+				<h1 class="h-main">to-do1</h1>
+				<div class="btns">
+				<a href="#"><i class="icon-edit"></i></a>
+				<a href="#"><i class="icon-ok"></i></a>
+				</div>
+			</div>
+			<div class="m-date border-top">
+				任务日期：<span>2016-01-07</span>
+			</div>
+			<div class="m-info border-top">完成编码工作。</div>
+		</div>
+	</div>
+	<div class="add-classic-box" id="addClassicBox">
+		<h2 class="h-add"><i class="icon-folder"></i>请输入新的类别名称</h1>
+		<input type="text" class="add-input" />
+		<div class="btn-box">
+			<button class="ok-btn">确定</button>
+			<button class="cancel-btn">取消</button>
+		</div>
+		<a href="#" class="del-btn"><i class="icon-del"></i></a>
+	</div>
+	<!-- <div class="add-task-box"></div> -->
+</body>
+<script src="js/init.js"></script>
+</html>
