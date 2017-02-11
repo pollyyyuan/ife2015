@@ -39,7 +39,10 @@ a{
 	box-sizing: border-box;
 }
 a:hover{
-	background-color: #eee;	
+	background-color: #eee;
+}
+button{
+	cursor: pointer;
 }
 /*边缘线*/
 .border-top{
@@ -109,6 +112,27 @@ a:hover{
 .h-classic a{
 	padding-left: 20px;
 }
+.h-classic .del-btn,.h-classic .addTask-btn{
+	display: none;
+	position: absolute;
+	right: 15px;
+	top: 7px;
+	width: 14px;
+	height: 14px;	
+	padding-left: 0;
+	background-color: transparent;
+}
+.h-classic .del-btn i,.h-classic .addTask-btn i{
+	font-size: 12px;
+	display: block;
+}
+.h-classic .addTask-btn{
+	top:6px;
+	right: 40px;
+}
+.del-btn:hover,.addTask-btn:hover{
+	color: #666;
+}
 .list li{
 	position: relative;
 	font-family: Arial;
@@ -119,18 +143,6 @@ a:hover{
 .lists .active a{
 	background-color: #D8483F;
 	color: #fff;
-}
-.del-btn{
-	display: none;
-	position: absolute;
-	right: 22px;
-	top: 0;
-	width: 12px;
-	height: 12px;	
-}
-.del-btn:hover{
-	color: #666;
-	background-color: transparent;
 }
 /*任务部分*/
 .task{
@@ -302,8 +314,11 @@ a:hover{
 	display: none;
 }
 .add-classic-box .del-btn,.add-task-box .del-btn{
+	position: absolute;
 	right: 8px;
 	top: 8px;
+	width: 12px;
+	height: 12px;
 	display: block;
 }
 .h-add{
