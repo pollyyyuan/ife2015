@@ -19,9 +19,19 @@
 <body>
 <section>
 	
-	<div>
+	<div id="polly">
 		我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
 	</div>
 </section>
 </body>
+<script>
+	var array=[1,2,3];
+	var result=JSON.stringify(array);
+	console.log(JSON.parse(result));
+	var wo=document.getElementById('polly');
+	wo.addEventListener('mouseover',function(){
+		console.log(123);
+	
+	});
+</script>
 </html>

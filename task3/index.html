@@ -11,30 +11,15 @@
 	</div>
 	<div class="content border-top">
 		<div class="classic border-right">
-			<div class="add-btn border-top"><a href="#" id="addBtn"><i class="icon-add"></i>新建分类</a></div>
+			<div class="add-btn border-top"><a href="#" id="addClassicBtn"><i class="icon-add"></i>新建分类</a></div>
 			<h1 class="h-allTask">
 				所有任务(<i id="num-allTask"></i>)
 			</h1>
 			<h2 class="h">
 				分类列表
 			</h2>
-			<ul class="lists">
-				<li>
-					<h3 class="h-classic">	
-						<a href="#"><i class="icon-folder"></i>默认分类(<i class="id-list">0</i>)</a>
-						<a href="#" class="del-btn"><i class="icon-del"></i></a>
-					</h3>
-					<!-- <ul class="list">
-						<li class="active">
-							<a href="#"><i class="icon-file"></i>task1(<i></i>)</a>
-							<a href="#" class="del-btn"><i class="icon-del"></i></a>
-						</li>
-						<li>
-							<a href="#"><i class="icon-file"></i>task1(<i></i>)</a>
-							<a href="#" class="del-btn"><i class="icon-del"></i></a>
-						</li>
-					</ul> -->
-				</li>
+			<ul class="lists" id="classicDom">
+				
 			</ul>
 		</div>
 		<div class="task border-right">
@@ -44,7 +29,7 @@
 				<span class="tab">未完成</span>
 				<span class="tab">已完成</span>
 			</div>
-			<div class="lists border-top">
+			<div class="lists border-top" id="taskDom">
 				<dl>
 					<dt>2016-01-07</dt>
 					<dd class="active"><a href="#">to do1</a></dd>
@@ -52,7 +37,7 @@
 				</dl>
 			</div>
 		</div>
-		<div class="main">
+		<div class="main" id="infoDom">
 			<div class="m-header">
 				<h1 class="h-main">to-do1</h1>
 				<div class="btns">
@@ -69,6 +54,7 @@
 	<div class="add-classic-box" id="addClassicBox">
 		<h2 class="h-add"><i class="icon-folder"></i>请输入新的类别名称</h1>
 		<input type="text" class="add-input" />
+		<span class="message"></span>
 		<div class="btn-box">
 			<button class="ok-btn">确定</button>
 			<button class="cancel-btn">取消</button>
