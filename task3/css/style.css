@@ -112,7 +112,7 @@ button{
 .h-classic a{
 	padding-left: 20px;
 }
-.h-classic .del-btn,.h-classic .addTask-btn{
+.h-classic .del-btn,.h-classic .addTask-btn,.list .del-btn{
 	display: none;
 	position: absolute;
 	right: 15px;
@@ -121,10 +121,7 @@ button{
 	height: 14px;	
 	padding-left: 0;
 	background-color: transparent;
-}
-.h-classic .del-btn i,.h-classic .addTask-btn i{
 	font-size: 12px;
-	display: block;
 }
 .h-classic .addTask-btn{
 	top:6px;
@@ -137,7 +134,7 @@ button{
 	position: relative;
 	font-family: Arial;
 }
-.lists .list li a{
+.list li a{
 	padding-left: 44px;
 }
 .lists .active a{
