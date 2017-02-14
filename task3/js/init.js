@@ -67,7 +67,6 @@
 			dialog.style.display='none';
 			input.value='';
 		});
-
 	};
 	// 分类模块
 	var Classic=(function(){
@@ -83,7 +82,6 @@
 				// this.bindNumAllTask();
 				//绑定列表s
 				this.bindDom();
-		
 				// 绑定事件
 				 this.bindEvent();
 				//绑定Taskss
@@ -124,15 +122,15 @@
 			bindEvent:function(){
 				var me=this;
 				//folder
-				var lis=me.classicDom.querySelectorAll('li');
+				var lis=me.classicDom.children;
+				console.log(lis);
 				for(var li=0;li<lis.length;li++){
 					var a=lis[li].querySelector('.h-classic a'),//获得标题
 						list=lis[li].querySelector('.list'),
-						tasksDom=lis[li].querySelectorAll('.list li');//获得task
-						console.log(a);
+						tasksDom=lis[li].querySelectorAll('.list li');//获得task		
 					a.addEventListener('mouseover',function(){
 						var two=this;
-						var addTasksBtn=this.querySelector('.addTask-btn'),
+						var addTas ksBtn=this.querySelector('.addTask-btn'),
 							delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block',
 						addTasksBtn.style.display='block';
@@ -154,7 +152,7 @@
 								TasksDialog.style.display='none';
 								input.value='';
 							}
-						});			
+						 });			
 					});
 					a.addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
@@ -175,6 +173,10 @@
 					}
 					this.addFolder(input.value);
 				});
+				//Tasks
+				if(this.tasks.tasksDom){
+					this.tasks.bindEvent();
+				}
 			},
 			addFolder:function(name){
 				var li=document.createElement('li');
@@ -195,12 +197,6 @@
 			bindNumAllTask:function(){
 				var dom=document.getElementById('num-allTask');
 				dom.innerHTML=this.numAllTask;
-			},
-			bindTask:function(taskDom){
-				if(this.myData[0].tasks){
-					this.task=new Task(this.myData[0].tasks[0]);
-					this.task.init(taskDom);
-				}
 			}
 		}
 		return Classic;
@@ -214,7 +210,7 @@
 		Tasks.prototype={
 			init:function(tasksDom){
 				this.tasksDom=tasksDom;
-				// 绑定事件
+				// 绑定事件 
 				this.bindEvent();
 				// 绑定任务列表
 				// this.bindTask(taskDom);
@@ -247,55 +243,26 @@
 			bindEvent:function(){
 				var me=this;
 				//tasks
-				var lis=me.tasksDom.querySelectorAll('li');
+				var lis=me.tasksDom.children;
 				console.log(lis);
 				for(var li=0;li<lis.length;li++){
-					lis[li].addEventListener('mouseover',function(){
+					var a=lis[li].querySelector('a');
+					a.addEventListener('mouseover',function(){
+						console.log('a');
 						var delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block';
 					});
-					lis[li].addEventListener('mouseout',function(){
+					a.addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
 					});	
 				}
+			},
+			bindTask:function(taskDom){
+				if(this.myData[0].tasks){
+					this.task=new Task(this.myData[0].tasks[0]);
+					this.task.init(taskDom);
+				}
 			}
-			// addTasks:function(name){
-			// 	var li=document.createElement('li');
-			// 	li.setAttribute('class','active');
-			// 	var str='<a href="#"><i class="icon-file"></i>'+name+'(<i>0</i>)';
-			// 	str+='<button class="del-btn"><i class="icon-del"</i></button>';
-			// 	str+='</a></li>';
-			// 	li.innerHTML=str;
-			// 	this.classicDom.querySelector('.list').appendChild(li);
-			// 	var data={
-			// 		tasksName:name,
-			// 		task:[]
-			// 	};
-			// 	this.myData.push(data);
-			// 	Data.updateStorage(this.myData);
-			// },
-			// addTasks:function(name){
-			// 	var li=document.createElement('li');
-			// 	li.setAttribute('class','active');
-			// 	var str='<a href="#"><i class="icon-file"></i>'+name+'(<i>0</i>)';
-			// 	str+='<button class="del-btn"><i class="icon-del"</i></button>';
-			// 	str+='</a></li>';
-			// 	li.innerHTML=str;
-			// 	this.classicDom.querySelector('.list').appendChild(li);
-			// 	var data={
-			// 		tasksName:name,
-			// 		task:[]
-			// 	};
-			// 	this.myData.push(data);
-			// 	Data.updateStorage(this.myData);
-			// },
-			
-			//,bindTask:function(taskDom){
-			// 	if(this.myData[0].tasks){
-			// 		this.task=new Task(this.myData[0].tasks[0]);
-			// 		this.task.init(taskDom);
-			// 	}
-			// }
 		}
 		return Tasks;
 	})();
