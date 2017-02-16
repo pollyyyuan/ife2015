@@ -53,9 +53,17 @@
 		}
 	};
 	// 对话框模块
-	var Dialog=function(addBtn,dialog){
-		var input=dialog.parentNode.querySelector('.add-input');
+	var Dialog=function(addBtn,dialog,scope){
+		var input=dialog.parentNode.querySelector('.add-input'),
+			a=addBtn.parentNode;
 		addBtn.addEventListener('click',function(){
+			if(scope){
+				var del=scope.querySelector('a.active');
+				if(del){
+					del.removeAttribute('class');
+				}
+			}
+			a.setAttribute('class','active');
 			dialog.style.display='block';
 			input.focus();
 		});
@@ -78,14 +86,15 @@
 			init:function(classicDom,taskDom){
 				// 获取classicDom
 				this.classicDom=classicDom;
+				//绑定Taskss
+				this.tasks=new Tasks();
 				//绑定个数
 				// this.bindNumAllTask();
 				//绑定列表s
 				this.bindDom();
 				// 绑定事件
 				 this.bindEvent();
-				//绑定Taskss
-				this.tasks=new Tasks();
+				// console.log(me.tasks);
 			},
 			//绑定单个列表
 			bindDom:function(){
@@ -125,22 +134,26 @@
 				var lis=me.classicDom.children;
 				console.log(lis);
 				for(var li=0;li<lis.length;li++){
-					var a=lis[li].querySelector('.h-classic a'),//获得标题
-						list=lis[li].querySelector('.list'),
-						tasksDom=lis[li].querySelectorAll('.list li');//获得task		
+					var a=lis[li].querySelector('.h-classic a');//获得标题
+					var TasksDialog=document.getElementById('addTasksBox');
 					a.addEventListener('mouseover',function(){
 						var two=this;
-						var addTas ksBtn=this.querySelector('.addTask-btn'),
+						var addTasksBtn=this.querySelector('.addTask-btn'),
 							delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block',
-						addTasksBtn.style.display='block';
-						//dialog
-						var TasksDialog=document.getElementById('addTasksBox');
-						Dialog(addTasksBtn,TasksDialog);
-						TasksDialog.querySelector('.ok-btn').addEventListener('click',function(){
-							var input=TasksDialog.querySelector('input'),
-								message=TasksDialog.querySelector('message');
-							if(input.value){
+						addTasksBtn.style.display='block';		
+						Dialog(addTasksBtn,TasksDialog,me.classicDom);
+					});
+					//dialog
+					TasksDialog.querySelector('.ok-btn').addEventListener('click',function(){
+						var a=me.classicDom.querySelector('.h-classic a.active'),//获得task
+							list=a.parentNode.nextSibling,//获得task
+							tasksDom=list.querySelector('li');//获得task
+							console.log(list);
+						var input=TasksDialog.querySelector('input'),
+							message=TasksDialog.querySelector('message');
+						if(input.value){
+							if(tasksDom){	
 								for(var t=0;t<tasksDom.length;t++){	
 									if(tasksDom[t].value==input.value)
 									{
@@ -148,43 +161,51 @@
 										return;
 									}
 								}
-								me.tasks.addDom(input.value,list,two.querySelector('span').innerHTML);
-								TasksDialog.style.display='none';
-								input.value='';
 							}
-						 });			
-					});
+							me.tasks.addDom(input.value,list,a.querySelector('span').innerHTML);
+							TasksDialog.style.display='none';
+							input.value='';
+						}
+					 });	
 					a.addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
 						this.querySelector('.addTask-btn').style.display='none';
 					});
+					if(me.tasks.tasksDom){
+						me.tasks.init(list);
+					}
+					// console.log(me.tasks);
 				}
 				//addDialog
 				var addDialog=document.getElementById('addClassicBox'),
-					addClassicBtn=document.getElementById('addClassicBtn'),
-					addinput=addDialog.querySelector('.input');
-				Dialog(addClassicBtn,addDialog);
+					addClassicBtn=document.getElementById('addClassicBtn');
+				Dialog(addClassicBtn,addDialog,null);
 				addDialog.querySelector('.ok-btn').addEventListener('click',function(){
-					for(var dt=0;dt<me.myData.length;dt++){
-						if(my.myData[dt].folderName==input.value){
-							input.value='';
-							return;
+					var addinput=addDialog.querySelector('input'),
+						message=addDialog.querySelector('.message');
+					if(addinput.value){
+						for(var dt=0;dt<me.myData.length;dt++){
+							if(me.myData[dt].folderName==addinput.value){
+								addinput.value='';
+								return;
+							}
 						}
+						me.addFolder(addinput.value);
+						this.display='none';
+						addinput.value='';
 					}
-					this.addFolder(input.value);
+					else{
+						message.innerHTML='空!';
+					}
 				});
-				//Tasks
-				if(this.tasks.tasksDom){
-					this.tasks.bindEvent();
-				}
 			},
 			addFolder:function(name){
 				var li=document.createElement('li');
 				var str='<h3 class="h-classic">';
-				str+='<a href="#"><i class="icon-folder"></i>'+name+'(<i class="id-list">0</i>)';
+				str+='<a href="#"><i class="icon-folder"></i><span>'+name+'</span>(<i class="id-list">0</i>)';
 				str+='<button class="addTask-btn"><i class="icon-add"></i></button>';		
 				str+='<button class="del-btn"><i class="icon-del"></i></button>';		
-				str+='</a></h3>';
+				str+='</a></h3><ul class="list"></ul>';
 				li.innerHTML=str;
 				this.classicDom.appendChild(li);
 				var data={
@@ -193,6 +214,7 @@
 				};
 				this.myData.push(data);
 				Data.updateStorage(this.myData);
+				this.bindEvent();
 			},
 			bindNumAllTask:function(){
 				var dom=document.getElementById('num-allTask');
@@ -216,6 +238,7 @@
 				// this.bindTask(taskDom);
 			},
 			addDom:function(data,listDom,spanStr){
+				console.log('listDom',listDom);
 				var li=document.createElement('li');
 				var str='<a href="#"><i class="icon-file"></i>'+data+'(<i>0</i>)';
 				str+='<button class="del-btn"><i class="icon-del"></i></button>';
@@ -244,11 +267,11 @@
 				var me=this;
 				//tasks
 				var lis=me.tasksDom.children;
+				console.log(me.tasksDom);
 				console.log(lis);
 				for(var li=0;li<lis.length;li++){
 					var a=lis[li].querySelector('a');
 					a.addEventListener('mouseover',function(){
-						console.log('a');
 						var delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block';
 					});

@@ -137,7 +137,7 @@ button{
 .list li a{
 	padding-left: 44px;
 }
-.lists .active a{
+.h-classic .active,.lists .active{
 	background-color: #D8483F;
 	color: #fff;
 }
