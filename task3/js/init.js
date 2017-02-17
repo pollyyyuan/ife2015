@@ -1,18 +1,18 @@
 ;(function(){
 	// 模拟数据
-	var dataa=[{
-		folderName:'默认列表',
-		tasks:[{
-			tasksName:'task1',
-			task:[{
-				time:'2017-7-10',
-				toDo:[{
-					taskName:'to do1',
-					content:'完成编码'
-				}]
-			}]
-		}]
-	}];
+	// var dataa=[{
+	// 	folderName:'默认列表',
+	// 	tasks:[{
+	// 		tasksName:'task1',
+	// 		task:[{
+	// 			time:'2017-7-10',
+	// 			toDo:[{
+	// 				taskName:'to do1',
+	// 				content:'完成编码'
+	// 			}]
+	// 		}]
+	// 	}]
+	// }];
 
 	//初始化
 	//localStorage.removeItem('mytask');
@@ -404,27 +404,44 @@
 	//任务模块
 	var Task=(function(){
 		function Task(){
-			//task[]
+			//addDialog
+			this.addDialog=document.getElementById('addTaskBox');
 		}
 		Task.prototype={
 			init:function(taskDom,task){
 				this.taskDom=taskDom;
+				this.taskName=task;
 				console.log(this.taskDom);
 				this.myData=this.searchData(task);
 				//绑定
 				this.bindDom();
+				this.bindEvent();
 			},
-			searchData:function(name){
+			searchData:function(){
 				var ddata=Data.getData();
 				outer:for(var i=0;i<ddata.length;i++){
 					for(var j=0;j<ddata[i].tasks.length;j++)
 					{
 						var tasks=ddata[i].tasks[j];
-						if(tasks.tasksName==name){
+						if(tasks.tasksName==this.taskName){
 							return tasks.task;
 						}
 					}
 				}
+			},
+			updateData:function(){
+				var ddata=Data.getData();
+				outer:for(var i=0;i<ddata.length;i++){
+					for(var j=0;j<ddata[i].tasks.length;j++)
+					{
+						var tasks=ddata[i].tasks[j];
+						if(tasks.tasksName==this.taskName){
+							tasks.task=this.myData;
+							break outer;
+						}
+					}
+				}
+				Data.updateStorage(ddata);
 			},
 			bindDom:function(){
 				var str='';
@@ -442,8 +459,88 @@
 					}
 					str+='</dl>';
 				}
-
 				this.taskDom.innerHTML=str;
+			},
+			bindEvent:function(){
+				//对话框
+				this.addTaskDialogEvent();
+			},
+			addTaskDialogEvent:function(){
+				var me=this;
+				var addTaskBtn=document.getElementById('addTaskBtn'),
+					input=me.addDialog.querySelector('.add-input'),
+					message=me.addDialog.querySelector('.message');			
+				addTaskBtn.addEventListener('click',function(){
+					me.addDialog.style.display='block';
+					input.focus();
+				});
+				me.addDialog.querySelector('.ok-btn').addEventListener('click',function(){
+					if(input.value){
+						var date=new Date(),
+							year=date.getFullYear(),
+							month=date.getMonth()+1,
+							day=date.getDate();
+						var time=year+'-'+month+'-'+day;
+						var timeDom,
+							lis=me.taskDom.children;
+						for(var i=0;i<lis.length;i++){
+							var dt=lis[i].querySelector('dt');
+							console.log(dt);
+							if(time==dt.innerHTML){
+								timeDom=dt;
+								break;
+							}
+						}
+						if(timeDom){
+							var dds=timeDom.parentNode.querySelectorAll('dd a');
+							for(var j=0;j<dds.length;j++)
+							{
+								if(dds[j].innerHTML==input.value)
+								{
+									message.innerHTML='任务名称重复';
+									break;
+								}
+							}
+							if(j==dds.length){
+								var dd=document.createElement('dd');
+								dd.innerHTML='<a href="#">'+input.value+'</a>';
+								timeDom.parentNode.appendChild(dd);
+								var todo={
+									taskName:input.value,
+									content:''
+									};
+								for(var t=0;t<me.myData.length;t++){
+									if(me.myData[t].time==timeDom.innerHTML)
+									{
+										me.myData[t].toDo.push(todo);
+										console.log(me.myData[t].toDo);
+										me.updateData();
+									}
+								}
+							}
+						}
+						else{
+							var dl=document.createElement('dl');
+							var str='';
+							str+='<dt>'+time+'</dt>';
+							str+='<dd><a href="#">'+input.value+'</a></dd>';
+							dl.innerHTML=str;
+							me.taskDom.insertBefore(dl,me.taskDom.firstChild);
+							var task={
+									time:time,
+									toDo:[{
+										taskName:input.value,
+										content:''
+									}]
+								};
+							me.myData.unshift(task);
+							me.updateData();
+						}
+					}
+					else{
+						message.innerHTML='不能为空!';
+					}
+				});
 			}
 		}
 		return Task;
@@ -455,7 +552,6 @@
 		return Info;
 	})();
 	//使用
-		Data.updateStorage(dataa);
 	var classicDom=document.getElementById('classicDom');
 	var taskDom=document.getElementById('taskDom');
 	var infoDom=document.getElementById('infoDom');
