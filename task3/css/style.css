@@ -137,8 +137,11 @@ button{
 .list li a{
 	padding-left: 44px;
 }
-.h-classic .active,.lists .active{
+.lists .active{
 	background-color: #D8483F;
+	color: #fff;
+}
+.lists .active button{
 	color: #fff;
 }
 /*任务部分*/
@@ -293,10 +296,10 @@ button{
 	font-size: 10px;
 }
 /*弹出层*/
-.add-classic-box,.add-task-box{
+.box,.add-task-box{
 	position: absolute;
 	width: 300px;
-	height: 120px;
+	height: 140px;
 	background-color: #fff;
 	border:1px solid #ccc;
 	box-shadow: 2px 2px 3px rgba(0,0,0,.1);
@@ -310,7 +313,7 @@ button{
 	padding-top: 5px;
 	display: none;
 }
-.add-classic-box .del-btn,.add-task-box .del-btn{
+.box .del-btn,.add-task-box .del-btn{
 	position: absolute;
 	right: 8px;
 	top: 8px;
@@ -350,4 +353,13 @@ button{
 }
 .btn-box .ok-btn{
 	background-color: #D8483F;
+}
+.message{
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 10px;
+}
+.del-box{
+	height: 120px;
 }

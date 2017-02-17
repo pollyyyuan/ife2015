@@ -9,7 +9,7 @@
 	}];
 	//初始化
 	//localStorage.removeItem('mytask');
-	 console.log(localStorage.mytask);
+	console.log(localStorage.mytask);
 	var Main=(function(){
 		function Main(dom1,dom2,dom3){
 			this.defaults=[
@@ -34,11 +34,30 @@
 				}
 				//绑定dom
 				this.bindDoms();
+				//绑定关闭按钮
+				this.bindDelBtn();
 			},
 			bindDoms:function(){
 				//绑定分类
 				this.classic=new Classic(this.myData);
 				this.classic.init(this.classicDom,this.taskDom,this.infoDom);
+			},
+			bindDelBtn:function(){
+				var delBtns=document.querySelectorAll('a.del-btn'),
+					cancelBtns=document.querySelectorAll('.cancel-btn');
+					console.log(delBtns);
+				for(var d=0;d<delBtns.length;d++){
+					delBtns[d].addEventListener('click',function(){
+						this.parentNode.style.display='none';
+						this.parentNode.querySelector('.add-input').value='';
+					});
+				}
+				for(var c=0;c<cancelBtns.length;c++){
+					cancelBtns[c].addEventListener('click',function(){
+						this.parentNode.parentNode.style.display='none';
+						this.parentNode.querySelector('.add-input').value='';
+					});
+				}
 			}
 		}
 		return Main;
@@ -53,28 +72,17 @@
 		}
 	};
 	// 对话框模块
-	var Dialog=function(addBtn,dialog,scope){
-		var input=dialog.parentNode.querySelector('.add-input'),
-			a=addBtn.parentNode;
-		addBtn.addEventListener('click',function(){
-			if(scope){
-				var del=scope.querySelector('a.active');
-				if(del){
-					del.removeAttribute('class');
-				}
-			}
-			a.setAttribute('class','active');
-			dialog.style.display='block';
+	var Dialog=function(scope,dialog){
+		var del=scope.querySelector('a.active'),
+			input=dialog.querySelector('.add-input');
+		if(del){
+			del.removeAttribute('class');
+		}
+		this.parentNode.setAttribute('class','active');
+		dialog.style.display='block';
+		if(input){
 			input.focus();
-		});
-		dialog.querySelector('.del-btn').addEventListener('click',function(){
-			dialog.style.display='none';
-			input.value='';
-		});
-		dialog.querySelector('.cancel-btn').addEventListener('click',function(){
-			dialog.style.display='none';
-			input.value='';
-		});
+		}
 	};
 	// 分类模块
 	var Classic=(function(){
@@ -86,15 +94,17 @@
 			init:function(classicDom,taskDom){
 				// 获取classicDom
 				this.classicDom=classicDom;
+				//获取tasksDialog
+				this.tasksDialog=document.getElementById('addTasksBox');
+				this.addDialog=document.getElementById('addClassicBox');
 				//绑定Taskss
-				this.tasks=new Tasks();
+				this.tasks=new Tasks(this.classicDom);
 				//绑定个数
 				// this.bindNumAllTask();
 				//绑定列表s
 				this.bindDom();
 				// 绑定事件
 				 this.bindEvent();
-				// console.log(me.tasks);
 			},
 			//绑定单个列表
 			bindDom:function(){
@@ -126,78 +136,63 @@
 					}
 					str+='</li>';
 				}
-				this.classicDom.innerHTML=str;		
+				this.classicDom.innerHTML=str;	
 			},
 			bindEvent:function(){
 				var me=this;
 				//folder
 				var lis=me.classicDom.children;
-				console.log(lis);
 				for(var li=0;li<lis.length;li++){
-					var a=lis[li].querySelector('.h-classic a');//获得标题
-					var TasksDialog=document.getElementById('addTasksBox');
+					var a=lis[li].querySelector('.h-classic a'),//获得标题
+						list=lis[li].querySelectorAll('.lists li a');//tasks
 					a.addEventListener('mouseover',function(){
-						var two=this;
 						var addTasksBtn=this.querySelector('.addTask-btn'),
 							delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block',
-						addTasksBtn.style.display='block';		
-						Dialog(addTasksBtn,TasksDialog,me.classicDom);
+						addTasksBtn.style.display='block';
+						addTasksBtn.addEventListener('click',function(){
+							console.log(me.tasksDialog)
+							Dialog.call(this,me.classicDom,me.tasksDialog);
+						});	
+						delBtn.addEventListener('click',function(){
+							var d=this;
+							var delBox=document.getElementById('delBox');
+							Dialog.call(this,me.classicDom,delBox);
+							delBox.style.display='block';
+							delBox.querySelector('.ok-btn').addEventListener('click',function(){
+								me.delDom(d.parentNode);
+								delBox.style.display='none';
+							});
+						});
 					});
-					//dialog
-					TasksDialog.querySelector('.ok-btn').addEventListener('click',function(){
-						var a=me.classicDom.querySelector('.h-classic a.active'),//获得task
-							list=a.parentNode.nextSibling,//获得task
-							tasksDom=list.querySelector('li');//获得task
-							console.log(list);
-						var input=TasksDialog.querySelector('input'),
-							message=TasksDialog.querySelector('message');
-						if(input.value){
-							if(tasksDom){	
-								for(var t=0;t<tasksDom.length;t++){	
-									if(tasksDom[t].value==input.value)
-									{
-										message.value='该任务集已存在！';
-										return;
-									}
-								}
-							}
-							me.tasks.addDom(input.value,list,a.querySelector('span').innerHTML);
-							TasksDialog.style.display='none';
-							input.value='';
-						}
-					 });	
 					a.addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
 						this.querySelector('.addTask-btn').style.display='none';
 					});
-					if(me.tasks.tasksDom){
-						me.tasks.init(list);
-					}
-					// console.log(me.tasks);
+					//绑定tasks
+					me.tasks.bindEvent(list,a);
 				}
-				//addDialog
-				var addDialog=document.getElementById('addClassicBox'),
-					addClassicBtn=document.getElementById('addClassicBtn');
-				Dialog(addClassicBtn,addDialog,null);
-				addDialog.querySelector('.ok-btn').addEventListener('click',function(){
-					var addinput=addDialog.querySelector('input'),
-						message=addDialog.querySelector('.message');
-					if(addinput.value){
-						for(var dt=0;dt<me.myData.length;dt++){
-							if(me.myData[dt].folderName==addinput.value){
-								addinput.value='';
-								return;
-							}
-						}
-						me.addFolder(addinput.value);
-						this.display='none';
-						addinput.value='';
+				//dialog
+				this.bindTasksDialogEvent();
+				this.bindAddDialogEvent();			
+			},
+			delDom:function(li){
+				var me=this;
+				var spanStr=li.querySelector('span').innerHTML;
+					console.log(spanStr);
+				myData=Data.getData();
+				for(var i=0;i<myData.length;i++){
+					if(myData[i].folderName==spanStr)
+					{
+						myData.splice(i,1);
+						console.log(me.classicDom);
+						console.log(li.parentNode);
+						me.classicDom.removeChild(li.parentNode.parentNode);
+						break;
 					}
-					else{
-						message.innerHTML='空!';
-					}
-				});
+				}
+				Data.updateStorage(myData);
+				
 			},
 			addFolder:function(name){
 				var li=document.createElement('li');
@@ -214,7 +209,67 @@
 				};
 				this.myData.push(data);
 				Data.updateStorage(this.myData);
-				this.bindEvent();
+				this.bindAddDialogEvent();
+			},
+			//addDialog
+			bindAddDialogEvent:function(){
+				var me=this;
+				var addClassicBtn=document.getElementById('addClassicBtn');
+				addClassicBtn.addEventListener('click',function(){
+					me.addDialog.style.display='block';
+					me.addDialog.querySelector('.add-input').focus();
+				});
+				me.addDialog.querySelector('.ok-btn').addEventListener('click',function(){
+					var as=me.classicDom.querySelectorAll('.h-classic a span');
+					var addinput=me.addDialog.querySelector('.add-input'),
+						message=me.addDialog.querySelector('.message');
+					if(addinput.value){
+						if(as){	
+							for(var a=0;a<as.length;a++){
+								if(as[a].value==addinput.value){
+									addinput.value='';
+									message.value='该类别已存在';
+									return;
+								}
+							}
+						}
+						me.addFolder(addinput.value);
+						me.addDialog.style.display='none';
+						addinput.value='';
+					}
+					else{
+						message.innerHTML='空!';
+					}
+				});
+			},
+			//tasksDialog
+			bindTasksDialogEvent:function(){
+				var me=this;
+				me.tasksDialog.querySelector('.ok-btn').addEventListener('click',function(){
+					var a=me.classicDom.querySelector('.h-classic a.active'),//获得task
+						list=a.parentNode.nextSibling,//获得task
+						tasksDom=list.querySelectorAll('li span');//获得task
+					var input=me.tasksDialog.querySelector('.add-input'),
+						message=me.tasksDialog.querySelector('.message');
+					if(input.value){
+						if(tasksDom){	
+							for(var t=0;t<tasksDom.length;t++){	
+								if(tasksDom[t].innerHTML==input.value)
+								{
+									message.innerHTML='该任务集已存在！';
+									input.value='';
+									input.focus();
+									break;
+								}
+							}
+						}
+						if(t==tasksDom.length){	
+						me.tasks.addDom(input.value,list,a.querySelector('span').innerHTML);
+						me.tasksDialog.style.display='none';
+						input.value='';
+						}
+					}
+				});
 			},
 			bindNumAllTask:function(){
 				var dom=document.getElementById('num-allTask');
@@ -225,22 +280,23 @@
 	})();
 	//任务集模块
 	var Tasks=(function(){
-		function Tasks(){//tasks[]
+		function Tasks(classicDom){//tasks[]
 			//this.myData=data;
 			// this.numAllTask=0;
+			this.classicDom=classicDom;
 		}	
 		Tasks.prototype={
 			init:function(tasksDom){
-				this.tasksDom=tasksDom;
+				// this.tasksDom=tasksDom;
+				// console.log(this.tasksDom);
 				// 绑定事件 
-				this.bindEvent();
+				// this.bindEvent();
 				// 绑定任务列表
 				// this.bindTask(taskDom);
 			},
 			addDom:function(data,listDom,spanStr){
-				console.log('listDom',listDom);
 				var li=document.createElement('li');
-				var str='<a href="#"><i class="icon-file"></i>'+data+'(<i>0</i>)';
+				var str='<a href="#"><i class="icon-file"></i><span>'+data+'</span>(<i>0</i>)';
 				str+='<button class="del-btn"><i class="icon-del"></i></button>';
 				str+='</a></li>';
 				li.innerHTML=str;
@@ -250,10 +306,7 @@
 					task:[]
 				},
 				myData=Data.getData();
-				console.log(myData.length);
 				for(var i=0;i<myData.length;i++){
-					console.log('spanstr'+spanStr);
-					console.log('folderName'+myData[i].folderName);
 					if(myData[i].folderName==spanStr)
 					{
 						myData[i].tasks.push(tasks);
@@ -261,24 +314,72 @@
 						Data.updateStorage(myData);
 					}
 				}
-				this.init(listDom);
+				this.bindTasks(li.querySelector('a'),spanStr);
 			},
-			bindEvent:function(){
+			delDom:function(list,folderStr){
+				var spanStr=list.querySelector('span').innerHTML;
+					console.log(spanStr);
+					console.log(folderStr);
+				myData=Data.getData();
+				for(var i=0;i<myData.length;i++){
+					if(myData[i].folderName==folderStr)
+					{
+						var tasksArray=myData[i].tasks;
+						console.log(tasksArray);
+						for(var j=0;j<tasksArray.length;j++)
+						{
+							if(tasksArray[j].tasksName==spanStr){
+								tasksArray.splice(j,1);
+								list.parentNode.parentNode.removeChild(list.parentNode);
+								break;
+							}
+						}
+						Data.updateStorage(myData);
+					}
+				}
+			},
+			bindEvent:function(list,a){
 				var me=this;
-				//tasks
-				var lis=me.tasksDom.children;
-				console.log(me.tasksDom);
-				console.log(lis);
-				for(var li=0;li<lis.length;li++){
-					var a=lis[li].querySelector('a');
-					a.addEventListener('mouseover',function(){
+				for(var l=0;l<list.length;l++){
+					list[l].addEventListener('mouseover',function(){
 						var delBtn=this.querySelector('.del-btn');
 						delBtn.style.display='block';
 					});
-					a.addEventListener('mouseout',function(){
+					list[l].addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
+					});
+					list[l].querySelector('.del-btn').addEventListener('click',function(){
+						var d=this;
+						var delBox=document.getElementById('delBox');
+						Dialog.call(this,me.classicDom,delBox);
+						delBox.style.display='block';
+						delBox.querySelector('.ok-btn').addEventListener('click',function(){
+							me.delDom(d.parentNode,a.querySelector('span').innerHTML);
+							delBox.style.display='none';
+						});
 					});	
 				}
+			},
+			bindTasks:function(a,spanStr){
+				var me=this;
+				a.addEventListener('mouseover',function(){
+					var delBtn=this.querySelector('.del-btn');
+					delBtn.style.display='block';
+				});
+				a.addEventListener('mouseout',function(){
+					this.querySelector('.del-btn').style.display='none';
+				});
+				a.querySelector('.del-btn').addEventListener('click',function(){
+					var d=this;
+					var delBox=document.getElementById('delBox');
+					var delBox=document.getElementById('delBox');
+					Dialog.call(this,me.classicDom,delBox);
+					delBox.style.display='block';
+					delBox.querySelector('.ok-btn').addEventListener('click',function(){
+						me.delDom(d.parentNode,spanStr);
+						delBox.style.display='none';
+					});
+				});	
 			},
 			bindTask:function(taskDom){
 				if(this.myData[0].tasks){
