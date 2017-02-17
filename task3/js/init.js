@@ -4,9 +4,16 @@
 		folderName:'默认列表',
 		tasks:[{
 			tasksName:'task1',
-			task:[]
+			task:[{
+				time:'2017-7-10',
+				toDo:[{
+					taskName:'to do1',
+					content:'完成编码'
+				}]
+			}]
 		}]
 	}];
+
 	//初始化
 	//localStorage.removeItem('mytask');
 	console.log(localStorage.mytask);
@@ -98,13 +105,13 @@
 				this.tasksDialog=document.getElementById('addTasksBox');
 				this.addDialog=document.getElementById('addClassicBox');
 				//绑定Taskss
-				this.tasks=new Tasks(this.classicDom);
+				this.tasks=new Tasks(classicDom,taskDom);
 				//绑定个数
 				// this.bindNumAllTask();
 				//绑定列表s
 				this.bindDom();
 				// 绑定事件
-				 this.bindEvent();
+				this.bindEvent();
 			},
 			//绑定单个列表
 			bindDom:function(){
@@ -191,8 +198,7 @@
 						break;
 					}
 				}
-				Data.updateStorage(myData);
-				
+				Data.updateStorage(myData);	
 			},
 			addFolder:function(name){
 				var li=document.createElement('li');
@@ -280,20 +286,17 @@
 	})();
 	//任务集模块
 	var Tasks=(function(){
-		function Tasks(classicDom){//tasks[]
+		function Tasks(classicDom,taskDom){//tasks[]
 			//this.myData=data;
 			// this.numAllTask=0;
+			//classicDom
 			this.classicDom=classicDom;
+			//taskDom
+			this.taskDom=taskDom;
+			//task
+			this.task=new Task();
 		}	
 		Tasks.prototype={
-			init:function(tasksDom){
-				// this.tasksDom=tasksDom;
-				// console.log(this.tasksDom);
-				// 绑定事件 
-				// this.bindEvent();
-				// 绑定任务列表
-				// this.bindTask(taskDom);
-			},
 			addDom:function(data,listDom,spanStr){
 				var li=document.createElement('li');
 				var str='<a href="#"><i class="icon-file"></i><span>'+data+'</span>(<i>0</i>)';
@@ -348,7 +351,14 @@
 					list[l].addEventListener('mouseout',function(){
 						this.querySelector('.del-btn').style.display='none';
 					});
-					list[l].querySelector('.del-btn').addEventListener('click',function(){
+					list[l].addEventListener('click',function(){
+						if(me.classicDom.querySelector('a.active')){
+							me.classicDom.querySelector('a.active').removeAttribute('class');	
+						}
+						this.setAttribute('class','active');
+						me.task.init(me.taskDom,this.querySelector('span').innerHTML);
+					});
+					list[l].querySelector('.del-btn').addEventListener('click',function(e){
 						var d=this;
 						var delBox=document.getElementById('delBox');
 						Dialog.call(this,me.classicDom,delBox);
@@ -357,6 +367,7 @@
 							me.delDom(d.parentNode,a.querySelector('span').innerHTML);
 							delBox.style.display='none';
 						});
+
 					});	
 				}
 			},
@@ -392,11 +403,47 @@
 	})();
 	//任务模块
 	var Task=(function(){
-		function Task(){}
+		function Task(){
+			//task[]
+		}
 		Task.prototype={
-			init:function(){},
+			init:function(taskDom,task){
+				this.taskDom=taskDom;
+				console.log(this.taskDom);
+				this.myData=this.searchData(task);
+				//绑定
+				this.bindDom();
+			},
+			searchData:function(name){
+				var ddata=Data.getData();
+				outer:for(var i=0;i<ddata.length;i++){
+					for(var j=0;j<ddata[i].tasks.length;j++)
+					{
+						var tasks=ddata[i].tasks[j];
+						if(tasks.tasksName==name){
+							return tasks.task;
+						}
+					}
+				}
+			},
 			bindDom:function(){
+				var str='';
+				for(var i=0;i<this.myData.length;i++)
+				{
+					var dl=this.myData[i];
+					str+='<dl>';
+					if(dl.time){
+						str+='<dt>'+dl.time+'</dt>';
+					}
+					if(dl.toDo){
+						for(var j=0;j<dl.toDo.length;j++){
+							str+='<dd><a href="#">'+dl.toDo[j].taskName+'</a></dd>';
+						}
+					}
+					str+='</dl>';
+				}
 
+				this.taskDom.innerHTML=str;
 			}
 		}
 		return Task;
@@ -408,6 +455,7 @@
 		return Info;
 	})();
 	//使用
+		Data.updateStorage(dataa);
 	var classicDom=document.getElementById('classicDom');
 	var taskDom=document.getElementById('taskDom');
 	var infoDom=document.getElementById('infoDom');
