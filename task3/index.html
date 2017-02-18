@@ -25,9 +25,9 @@
 		<div class="task border-right">
 			<div class="add-btn border-top"><a href="#" id="addTaskBtn"><i class="icon-add"></i>新建任务</a></div>
 			<div class="tabs">
-				<span class="tab active">所有</span>
-				<span class="tab">未完成</span>
-				<span class="tab">已完成</span>
+				<span class="active" id="allFinish">所有</span>
+				<span  id="noFinish">未完成</span>
+				<span id="finished">已完成</span>
 			</div>
 			<div class="lists border-top" id="taskDom">
 					
@@ -44,7 +44,16 @@
 			<div class="m-date border-top">
 				任务日期：<span>2016-01-07</span>
 			</div>
-			<div class="m-info border-top">完成编码工作。</div>
+			<div class="m-info border-top">
+			<div class="no-edit"></div>
+			<div class="edit">
+				<textarea id="textId" placeholder="请输入内容" rows="15"></textarea>
+				<div class="btn-box">
+					<button class="ok-btn">确定</button>
+					<button class="cancel-btn">取消</button>
+				</div>
+			</div>
+			</div>
 		</div>
 	</div>
 	<div class="box" id="addClassicBox">
@@ -69,6 +78,14 @@
 	</div>
 	<div class="box del-box" id="delBox">
 		<h2 class="h-add"><i class="icon-folder"></i>是否确定删除？</h1>
+		<div class="btn-box">
+			<button class="ok-btn">确定</button>
+			<button class="cancel-btn">取消</button>
+		</div>
+		<a href="#" class="del-btn"><i class="icon-del"></i></a>
+	</div>
+	<div class="box finish-box" id="finishBox">
+		<h2 class="h-add"><i class="icon-folder"></i>是否确定完成？</h1>
 		<div class="btn-box">
 			<button class="ok-btn">确定</button>
 			<button class="cancel-btn">取消</button>
