@@ -35,14 +35,14 @@
 		</div>
 		<div class="main" id="infoDom">
 			<div class="m-header">
-				<h1 class="h-main">to-do1</h1>
+				<h1 class="h-main"></h1>
 				<div class="btns">
 				<a href="#"><i class="icon-edit"></i></a>
 				<a href="#"><i class="icon-ok"></i></a>
 				</div>
 			</div>
 			<div class="m-date border-top">
-				任务日期：<span>2016-01-07</span>
+				任务日期：<span></span>
 			</div>
 			<div class="m-info border-top">
 			<div class="no-edit"></div>
@@ -104,4 +104,16 @@
 	</div>
 </body>
 <script src="js/init.js"></script>
+<script src="js/Classic.js"></script>
+<script src="js/Tasks.js"></script>
+<script src="js/Task.js"></script>
+<script src="js/Info.js"></script>
+<script>
+		//使用
+	var classicDom=document.getElementById('classicDom');
+	var taskDom=document.getElementById('taskDom');
+	var infoDom=document.getElementById('infoDom');
+	var main=new Main(classicDom,taskDom,infoDom);
+	main.init();
+</script>
 </html>
