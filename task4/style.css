@@ -1,16 +1,18 @@
 /* init */
-html,body,header,section,ul,li,a,i{
+html,body,header,section,ul,li,a,i,div,span{
   padding: 0;
   margin: 0;
 }
 i{
   font-style: normal;
+  -webkit-tap-highlight-color : none;
 }
 li{
   list-style: none;
 }
 a{
   text-decoration: none;
+  -webkit-tap-highlight-color : none;
 }
 
 html,body{
