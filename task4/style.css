@@ -5,7 +5,7 @@ html,body,header,section,ul,li,a,i,div,span{
 }
 i{
   font-style: normal;
-  -webkit-tap-highlight-color : none;
+  -webkit-tap-highlight-color : transparent;
 }
 li{
   list-style: none;
